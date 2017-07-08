@@ -1,0 +1,6 @@
+% layout 'default';
+% title '俺のメモ帳';
+<h1>俺のメモ帳</h1>
+<% while(my $row = $memos->fetchrow_hashref){ %>
+<p><%= $row->{title}; %></p>
+<% } %>
