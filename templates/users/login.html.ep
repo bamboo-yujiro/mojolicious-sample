@@ -1,4 +1,4 @@
-<h1>ログインが必要です</h1>
+<h1>ログイン</h1>
 
 <%= flash 'message' %>
 <form action="/users/login" method="post">

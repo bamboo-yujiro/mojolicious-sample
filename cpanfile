@@ -1,9 +1,9 @@
 requires 'Mojolicious';
 requires 'DBD::mysql';
 requires 'Plack';
-requires 'DBIx::Skinny';
 requires 'DBIx::Encoding';
 requires 'DBIx::Class';
+requires 'DBIx::Class::Validation';
 requires 'DateTime';
 requires 'DateTime::Format::Strptime';
 requires 'DateTime::Format::MySQL';

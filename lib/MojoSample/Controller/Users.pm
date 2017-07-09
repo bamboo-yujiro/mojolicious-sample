@@ -24,11 +24,20 @@ sub register {
       $c->flash(message => "${username}というユーザーは既に存在します。別の名前を選択してください。");
       $c->redirect_to('/users/register');
     }else{
-      my $new_user = $c->db->resultset('User')->create({username => $username, password => $password})->insert;
-      $c->session->{login_user_id} = $new_user->id;
-      $c->redirect_to('/mypage/');
+      eval {
+        my $new_user = $c->db->resultset('User')->create({username => $username, password => $password})->insert;
+        $c->session->{login_user_id} = $new_user->id;
+        $c->redirect_to('/mypage/');
+      };
+      if ($@) {
+        my $error_messages = $@->messages('users');
+        $c->flash(message => "保存できませんでした。");
+        $c->render('error_messages' => $error_messages);
+        return;
+      }
     }
   }
+  $c->stash('error_messages' => []);
   $c->render();
 }
 

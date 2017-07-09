@@ -1,7 +1,5 @@
 % layout "default";
 % title '俺のメモ帳';
 <h1>君のメモ帳</h1>
-<% while(my $row = $memos->next()){ %>
-<p><%= $row->title; %></p>
-<p>投稿ユーザー : <%= $row->user->username; %></p>
-<% } %>
+<a href="/users/login">ログイン</a>
+<a href="/users/register">会員登録</a>

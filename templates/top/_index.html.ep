@@ -1,6 +1,0 @@
-% layout 'default';
-% title '俺のメモ帳';
-<h1>俺のメモ帳</h1>
-<% while(my $row = $memos->next()){ %>
-<p><%= $row->title; %></p>
-<% } %>

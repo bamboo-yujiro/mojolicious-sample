@@ -40,6 +40,7 @@ sub startup {
   my $login_required = $r->under->to('Users#logined');
   $login_required->get('mypage')->to('Mypage#index');
   $login_required->get('/users/logout')->to('Users#logout');
+
 }
 
 1;

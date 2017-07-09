@@ -1,6 +1,0 @@
-% layout 'default';
-% 'テストページですん';
-<h1>ほげほ</h1>
-To learn more, you can browse through the documentation
-<%= link_to 'here' => '/perldoc' %>.
-

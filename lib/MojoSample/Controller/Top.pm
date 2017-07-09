@@ -5,8 +5,7 @@ use MojoSample::Schema;
 # This action will render a template
 sub index {
   my $c = shift;
-  my $memos = $c->db->resultset('Memo');
-  $c->render('memos' => $memos);
+  $c->render();
 }
 
 1;
