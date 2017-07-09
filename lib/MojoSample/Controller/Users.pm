@@ -18,8 +18,8 @@ sub register {
     my $user = $c->db->resultset('User')->search({username => $username})->first();
     if($user){
       my $username = $user->username;
-      $c->flash(message => "${username}というユーザーは既に存在します。別の名前を選択してください。");
-      $c->redirect_to('/users/register');
+      $c->stash(message => "${username}というユーザーは既に存在します。別の名前を選択してください。");
+      $c->render('/users/register');
     }else{
       eval {#例外
         my $new_user = $c->db->resultset('User')->create({username => $username, password => $password})->insert;
@@ -28,7 +28,7 @@ sub register {
       };
       if ($@) {
         my $error_messages = $@->messages('users');
-        $c->flash(message => "保存できませんでした。");
+        $c->stash(message => "保存できませんでした。");
         $c->render('error_messages' => $error_messages);
         return;
       }
@@ -48,11 +48,13 @@ sub login {
       $c->session->{login_user_id} = $user->id;
       $c->redirect_to('/memos/');
     }else{
-      $c->flash(message => "ユーザー名かパスワードが間違っています。");
+      $c->stash(message => "ユーザー名かパスワードが間違っています。");
+      $c->render();
+      return;
     }
   }
   $c->render();
-  return undef;
+  return;
 }
 
 sub logout {

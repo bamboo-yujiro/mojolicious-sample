@@ -1,7 +1,7 @@
 <h1>新規会員登録ページ</h1>
 
 <p>ご希望のユーザー名とパスワードを入力してください。</p>
-<%= flash 'message' %>
+<%= stash 'message' %>
 <% foreach my $msg (@$error_messages) { %>
 <%= $msg %>
 <% } %>

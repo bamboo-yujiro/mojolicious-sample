@@ -1,7 +1,7 @@
 <h1>ログイン</h1>
 
-<%= flash 'message' %>
+<%= stash 'message' %>
 <form action="/users/login" method="post">
 <input type="text" name="username" placeholder="ユーザー名を入力してください。">
 <input type="password" name="password" placeholder="パスワードを入力してください。">
-<input type="submit" value="登録">
+<input type="submit" value="ログイン">
