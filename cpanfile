@@ -1,3 +1,11 @@
 requires 'Mojolicious';
 requires 'DBD::mysql';
-requires 'Plack'
+requires 'Plack';
+requires 'DBIx::Skinny';
+requires 'DBIx::Encoding';
+requires 'DBIx::Class';
+requires 'DateTime';
+requires 'DateTime::Format::Strptime';
+requires 'DateTime::Format::MySQL';
+requires 'Text::Xslate';
+requires 'Mojolicious::Plugin::XslateRenderer';

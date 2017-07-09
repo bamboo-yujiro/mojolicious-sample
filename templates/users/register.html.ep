@@ -1,0 +1,8 @@
+<h1>新規会員登録ページ</h1>
+
+<p>ご希望のユーザー名とパスワードを入力してください。</p>
+<%= flash 'message' %>
+<form action="/users/register" method="post">
+<input type="text" name="username" placeholder="ユーザー名を入力してください。">
+<input type="password" name="password" placeholder="パスワードを入力してください。">
+<input type="submit" value="登録">

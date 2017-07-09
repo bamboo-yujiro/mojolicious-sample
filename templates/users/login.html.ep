@@ -1,0 +1,7 @@
+<h1>ログインが必要です</h1>
+
+<%= flash 'message' %>
+<form action="/users/login" method="post">
+<input type="text" name="username" placeholder="ユーザー名を入力してください。">
+<input type="password" name="password" placeholder="パスワードを入力してください。">
+<input type="submit" value="登録">
