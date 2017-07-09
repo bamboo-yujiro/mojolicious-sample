@@ -1,4 +1,4 @@
-package MojoSample::Controller::Mypage;
+package MojoSample::Controller::Memos;
 use Mojo::Base 'Mojolicious::Controller';
 use MojoSample::Schema;
 

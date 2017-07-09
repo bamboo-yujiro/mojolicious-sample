@@ -30,15 +30,16 @@ sub startup {
   my $r = $self->routes;
 
   # Normal route to controller
-  $r->get('/')->to('Top#index');
-  $r->get('/users/login')->to('Users#login');
-  $r->post('/users/login')->to('Users#login');
-  $r->get('/users/register')->to('Users#register');
-  $r->post('/users/register')->to('Users#register');
+  my $filter = $r->under->to('Base#before_filter');
+  $filter->get('/')->to('Top#index');
+  $filter->get('/users/login')->to('Users#login');
+  $filter->post('/users/login')->to('Users#login');
+  $filter->get('/users/register')->to('Users#register');
+  $filter->post('/users/register')->to('Users#register');
 
   # ログインが必要になるページ
-  my $login_required = $r->under->to('Users#logined');
-  $login_required->get('mypage')->to('Mypage#index');
+  my $login_required = $filter->under->to('Users#logined_check');
+  $login_required->get('memos')->to('Memos#index');
   $login_required->get('/users/logout')->to('Users#logout');
 
 }

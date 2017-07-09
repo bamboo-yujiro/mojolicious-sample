@@ -1,5 +1,11 @@
 % layout "default";
 % title '俺のメモ帳';
 <h1>君のメモ帳</h1>
+<% if(defined($current_user)){ %>
+<div>おかえりなさい、<%= $current_user->username %>さん</div>
+<a href="/memos/">メモ帳を見る</a>
+<a href="/users/logout">ログアウト</a>
+<% }else{ %>
 <a href="/users/login">ログイン</a>
 <a href="/users/register">会員登録</a>
+<% } %>

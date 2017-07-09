@@ -1,1 +1,2 @@
+<div><a href="/">Topに戻る</a></div>
 <p><%= $current_user->username; %>さんのメモ帳</p>
