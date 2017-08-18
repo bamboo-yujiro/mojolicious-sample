@@ -1,0 +1,14 @@
+% layout "default";
+<div><a href="/">Topに戻る</a></div>
+
+<h1>新規会員登録</h1>
+
+<p>ご希望のユーザー名とパスワードを入力してください。</p>
+<%= stash 'message' %>
+<% foreach my $msg (@$error_messages) { %>
+  <%= $msg %>
+<% } %>
+<form action="/users/create" method="post" class="form-wrapper">
+<div><input type="text" name="username" placeholder="ユーザー名を入力してください。" value="<% if($error){ %><%= $records->{username}->{data} %><% } %>"></div>
+<div><input type="password" name="password" placeholder="パスワードを入力してください。"></div>
+<div><input type="submit" value="登録" class="dimention-btn"></div>

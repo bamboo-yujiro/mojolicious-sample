@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <%= stylesheet '/css/reset.css' %>
+  <%= stylesheet '/css/style.css' %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <title><%= title %></title>
   </head>
-  <body><%= content %></body>
+  <body>
+    <div class="wrapper">
+    <%= content %>
+    </div>
+  </body>
 </html>

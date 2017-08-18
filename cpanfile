@@ -9,3 +9,6 @@ requires 'DateTime::Format::Strptime';
 requires 'DateTime::Format::MySQL';
 requires 'Text::Xslate';
 requires 'Mojolicious::Plugin::XslateRenderer';
+requires 'FormValidator::Simple::Plugin::DBIC::Unique';
+requires 'DBIx::Class::Result::Validation';
+requires 'DateTime::Set'

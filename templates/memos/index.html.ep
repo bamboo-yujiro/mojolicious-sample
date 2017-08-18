@@ -1,2 +1,22 @@
+% layout "default";
 <div><a href="/">Topに戻る</a></div>
-<p><%= $current_user->username; %>さんのメモ帳</p>
+<h1><%= $current_user->username; %>さんのメモ帳</h1>
+<div class="mb20 mt10">
+  <a href="/memos/create" class="dimention-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>メモを書く</a>
+</div>
+<% while(my $row = $memos->next()){ %>
+<div class="memo-box clearfix">
+  <p><%= $row->title; %></p>
+  <div class="fl-left">
+    <span>投稿日時 : <%= $row->formated_created; %></span>
+  </div>
+  <div class="fl-right">
+    <a href="" class="mr10">編集</a>
+    <a href="">削除</a>
+  </div>
+</div>
+<% } %>
+<div class="pager">
+<%== my_pager($pager) %>
+</div>
+

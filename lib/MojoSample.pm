@@ -2,6 +2,10 @@ package MojoSample;
 use Mojo::Base 'Mojolicious';
 use MojoSample::Schema;
 use DBIx::Encoding;
+use MojoSample::Helpers;
+use FormValidator::Simple;
+
+our $schema;
 
 # This method will run once at server start
 sub startup {
@@ -15,7 +19,7 @@ sub startup {
   # Documentation browser under "/perldoc"
   $self->plugin('PODRenderer') if $config->{perldoc};
 
-  my $schema = MojoSample::Schema->connect(
+  $schema = MojoSample::Schema->connect(
     'dbi:mysql:mojolicious_sample', 'root', 'kani',
     {
       RaiseError => 1,
@@ -34,13 +38,57 @@ sub startup {
   $filter->get('/')->to('Top#index');
   $filter->get('/users/login')->to('Users#login');
   $filter->post('/users/login')->to('Users#login');
-  $filter->get('/users/register')->to('Users#register');
-  $filter->post('/users/register')->to('Users#register');
+  $filter->get('/users/create')->to('Users#create');
+  $filter->post('/users/create')->to('Users#create');
 
   # ログインが必要になるページ
   my $login_required = $filter->under->to('Users#logined_check');
-  $login_required->get('memos')->to('Memos#index');
+  $login_required->get('/memos')->to('Memos#index');
+  $login_required->get('/memos/create')->to('Memos#create');
+  $login_required->post('/memos/create')->to('Memos#create');
+  $login_required->post('/memos/delete')->to('Memos#delete');
+  $login_required->post('/memos/edit')->to('Memos#edit');
+  $login_required->post('/memos/edit')->to('Memos#edit');
   $login_required->get('/users/logout')->to('Users#logout');
+
+  $self->plugin('MojoSample::Helpers');
+
+  FormValidator::Simple->set_message_decode_from('utf-8');
+  FormValidator::Simple->set_messages({
+    users => {
+      username => {
+        NOT_BLANK => 'ユーザー名は必須です。',
+        LENGTH => 'ユーザー名は4文字以上16文字以内で入力してください。',
+        DBIC_UNIQUE => '指定されたユーザー名は既に使用されています。'
+      },
+      password => {
+        NOT_BLANK => 'パスワードは必須です。',
+        LENGTH => 'パスワードは8文字以上16文字以内で入力してください。'
+      }
+    },
+    memos => {
+      title => {
+        NOT_BLANK => 'タイトルは必須です。',
+      },
+      content => {
+        NOT_BLANK => '内容は必須です。',
+      }
+    },
+  });
+
+  MojoSample::Schema::Result::User->validation(
+    module => 'FormValidator::Simple',
+    profile => [
+      username => [
+        'NOT_BLANK',
+        ['LENGTH', 4, 16],
+        ['DBIC_UNIQUE', $schema->resultset('User'), 'username']
+      ],
+      password => ['NOT_BLANK', ['LENGTH', 8, 16]],
+    ],
+    filter => 0,
+    auto => 1,
+  );
 
 }
 

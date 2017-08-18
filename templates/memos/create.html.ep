@@ -1,0 +1,15 @@
+% layout "default";
+<div><a href="/">Topに戻る</a></div>
+<h1>新規メモ追加</h1>
+
+<%= stash 'message' %>
+<% foreach my $msg (@$error_messages) { %>
+<%= $msg %>
+<% } %>
+
+<form class="form-wrapper" action="/memos/create" method="post">
+  <div><input type="text" name="title" placeholder="タイトルを入力"></div>
+  <div><textarea name="content"></textarea></div>
+  <div><input id="tag_str" name="tag_str" placeholder="カンマ区切りで入力" type="text" value=""></div>
+  <input type="submit" value="追加" class="dimention-btn">
+</form>

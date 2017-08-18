@@ -1,5 +1,10 @@
 package MojoSample::Schema::Result::Memo;
 use base qw/DBIx::Class::Core/;
+use MojoSample::Schema::ResultSet::Memo;
+use MojoSample::Schema::ResultSet::Tag;
+use FormValidator::Simple;
+
+__PACKAGE__->load_components(qw/Validation/);
 
 # Associated table in database
 __PACKAGE__->table('memos');
@@ -38,6 +43,7 @@ __PACKAGE__->add_columns(
 # Tell DBIC that 'id' is the primary key
 __PACKAGE__->set_primary_key('id');
 
+__PACKAGE__->resultset_class('MojoSample::Schema::ResultSet::Memo');
 
 __PACKAGE__->belongs_to(
     user =>
@@ -45,5 +51,38 @@ __PACKAGE__->belongs_to(
     'user_id'
 );
 
+__PACKAGE__->has_many(
+    memo_tags =>
+    'MojoSample::Schema::Result::MemoTag',
+    'memo_id'
+);
+
+__PACKAGE__->validation(
+  module => 'FormValidator::Simple',
+  profile => [
+    title => ['NOT_BLANK'],
+    content => ['NOT_BLANK'],
+  ],
+  filter => 0,
+  auto => 1,
+);
+
+sub formated_created {
+  my $self = shift;
+  return substr($self->created_at, 0, 16);
+}
+
+sub append_tag {
+  my ($self, $tag_str) = @_;
+  @tag_array = split /,/, $tag_str;
+  for my $tag_name(@tag_array){
+    $tag = $MojoSample::schema->resultset('Tag')->search({name => $tag_name})->first();
+    if($tag){
+    }else{
+      $tag = $MojoSample::schema->resultset('Tag')->create({name => $tag_name})->insert();
+    }
+    $self->create_related('memo_tags', {tag_id => $tag->id});
+  }
+}
 
 1;

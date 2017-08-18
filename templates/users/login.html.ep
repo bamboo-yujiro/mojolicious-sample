@@ -1,7 +1,18 @@
+% layout "default";
+<div><a href="/">Topに戻る</a></div>
 <h1>ログイン</h1>
 
 <%= stash 'message' %>
-<form action="/users/login" method="post">
-<input type="text" name="username" placeholder="ユーザー名を入力してください。">
-<input type="password" name="password" placeholder="パスワードを入力してください。">
-<input type="submit" value="ログイン">
+<div class="form-wrapper">
+  <form action="/users/login" method="post">
+    <div>
+      <input type="text" name="username" placeholder="ユーザー名を入力してください。">
+    </div>
+    <div>
+      <input type="password" name="password" placeholder="パスワードを入力してください。">
+    </div>
+    <div>
+      <input type="submit" value="ログイン" class="dimention-btn">
+    </div>
+  </form>
+</div>
