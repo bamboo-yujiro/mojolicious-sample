@@ -1,14 +1,10 @@
 requires 'Mojolicious';
 requires 'DBD::mysql';
-requires 'Plack';
 requires 'DBIx::Encoding';
 requires 'DBIx::Class';
 requires 'DBIx::Class::Validation';
 requires 'DateTime';
 requires 'DateTime::Format::Strptime';
 requires 'DateTime::Format::MySQL';
-requires 'Text::Xslate';
-requires 'Mojolicious::Plugin::XslateRenderer';
 requires 'FormValidator::Simple::Plugin::DBIC::Unique';
-requires 'DBIx::Class::Result::Validation';
 requires 'DateTime::Set'
