@@ -1,0 +1,1 @@
+carton exec morbo -l "http://192.168.33.30:5000" ./script/mojo_sample
