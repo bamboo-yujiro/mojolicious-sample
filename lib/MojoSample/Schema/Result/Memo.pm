@@ -46,25 +46,17 @@ __PACKAGE__->set_primary_key('id');
 __PACKAGE__->resultset_class('MojoSample::Schema::ResultSet::Memo');
 
 __PACKAGE__->belongs_to(
-    user =>
-    'MojoSample::Schema::Result::User',
+    user => 'MojoSample::Schema::Result::User',
     'user_id'
 );
 
 __PACKAGE__->has_many(
-    memo_tags =>
-    'MojoSample::Schema::Result::MemoTag',
+    memo_tags => 'MojoSample::Schema::Result::MemoTag',
     'memo_id'
 );
 
-__PACKAGE__->validation(
-  module => 'FormValidator::Simple',
-  profile => [
-    title => ['NOT_BLANK'],
-    content => ['NOT_BLANK'],
-  ],
-  filter => 0,
-  auto => 1,
+__PACKAGE__->many_to_many(
+    tags => 'memo_tags' => 'tag'
 );
 
 sub formated_created {
@@ -83,6 +75,16 @@ sub append_tag {
     }
     $self->create_related('memo_tags', {tag_id => $tag->id});
   }
+}
+
+sub tag_str {
+  my $self = shift;
+  my $tag_str = '';
+  foreach $tag ($self->tags) {
+    $tag_str .= $tag->name . ',';
+  }
+  chop($tag_str);
+  return $tag_str;
 }
 
 1;

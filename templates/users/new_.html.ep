@@ -9,6 +9,6 @@
   <%= $msg %>
 <% } %>
 <form action="/users/create" method="post" class="form-wrapper">
-<div><input type="text" name="username" placeholder="ユーザー名を入力してください。" value="<% if($error){ %><%= $records->{username}->{data} %><% } %>"></div>
+<div><input type="text" name="username" placeholder="ユーザー名を入力してください。" value="<%= $user->username %>"></div>
 <div><input type="password" name="password" placeholder="パスワードを入力してください。"></div>
 <div><input type="submit" value="登録" class="dimention-btn"></div>

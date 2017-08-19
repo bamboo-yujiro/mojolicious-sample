@@ -1,0 +1,18 @@
+% layout 'default';
+%= include 'memos/widgets/back_list';
+<h1>メモ詳細</h1>
+<form class="form-wrapper mb20">
+  <label>タイトル</label>
+  <div>
+    <input readonly type="text" value="<%= $memo->title %>">
+  </div>
+  <label>Content</label>
+  <div>
+    <textarea readonly><%= $memo->content %></textarea>
+  </div>
+  <label>Tags</label>
+  <div>
+    <input readonly type="text" value="<%= $memo->content %>">
+  </div>
+</form>
+<a href="/memos/<%= $memo->id %>/edit">>> このメモを編集する</a>

@@ -38,21 +38,24 @@ sub startup {
   $filter->get('/')->to('Top#index');
   $filter->get('/users/login')->to('Users#login');
   $filter->post('/users/login')->to('Users#login');
-  $filter->get('/users/create')->to('Users#create');
+  $filter->get('/users/new')->to('Users#new_');
   $filter->post('/users/create')->to('Users#create');
 
   # ログインが必要になるページ
   my $login_required = $filter->under->to('Users#logined_check');
   $login_required->get('/memos')->to('Memos#index');
-  $login_required->get('/memos/create')->to('Memos#create');
+  $login_required->get('/memos/new')->to('Memos#new_'); # new は使えなかった
+  $login_required->get('/memos/:id/show')->to('Memos#show');
   $login_required->post('/memos/create')->to('Memos#create');
-  $login_required->post('/memos/delete')->to('Memos#delete');
-  $login_required->post('/memos/edit')->to('Memos#edit');
-  $login_required->post('/memos/edit')->to('Memos#edit');
+  $login_required->post('/memos/:id/destroy')->to('Memos#destroy');
+  $login_required->get('/memos/:id/edit')->to('Memos#edit');
+  $login_required->post('/memos/:id/update')->to('Memos#update');
   $login_required->get('/users/logout')->to('Users#logout');
+
 
   $self->plugin('MojoSample::Helpers');
 
+  # Validation
   FormValidator::Simple->set_message_decode_from('utf-8');
   FormValidator::Simple->set_messages({
     users => {
@@ -85,6 +88,16 @@ sub startup {
         ['DBIC_UNIQUE', $schema->resultset('User'), 'username']
       ],
       password => ['NOT_BLANK', ['LENGTH', 8, 16]],
+    ],
+    filter => 0,
+    auto => 1,
+  );
+
+  MojoSample::Schema::Result::Memo->validation(
+    module => 'FormValidator::Simple',
+    profile => [
+      title => ['NOT_BLANK'],
+      content => ['NOT_BLANK'],
     ],
     filter => 0,
     auto => 1,

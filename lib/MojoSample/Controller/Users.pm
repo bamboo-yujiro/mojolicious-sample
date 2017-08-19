@@ -11,37 +11,32 @@ sub logined_check {
   return undef;
 }
 
+sub new_{
+  my $c = shift;
+  my $user = $c->db->resultset('User')->new({});
+  $c->render(user => $user, error_messages => []);
+}
+
 sub create {
   my $c = shift;
-  if ($c->req->method eq 'POST'){
-    my $username = $c->param('username');
-    my $password = $c->param('password');
-    my $user = $c->db->resultset('User')->search({username => $username})->first();
-    eval {#例外
-      my $new_user = $c->db->resultset('User')->create({username => $username, password => $password})->insert;
-      $c->session->{login_user_id} = $new_user->id;
-      $c->redirect_to('/memos/');
-    };
-    if ($@) {
-      #$use Data::Dumper;
-      #print Dumper $@;
-      #exit;
-      my $error_messages = $@->messages('users');
-      $c->stash({message => "保存できませんでした。", error => 1, records => $@->_records, error_messages => $error_messages});
-      $c->render();
-      return;
-    }
+  my $user = $c->db->resultset('User')->new({username => $c->param('username'), password => $c->param('password')});
+  eval {
+    $user->insert;
+  };
+  if ($@) {
+    my $error_messages = $@->messages('users');
+    $c->stash({message => "保存できませんでした。", error_messages => $error_messages, user => $user});
+    $c->render('users/new_');
+    return;
   }
-  $c->stash({error => 0, records => '', error_messages => []});
-  $c->render();
+  $c->session->{login_user_id} = $user->id;
+  $c->redirect_to('/memos/');
 }
 
 sub login {
   my $c = shift;
   if ($c->req->method eq 'POST'){
-    my $username = $c->param('username');
-    my $password = $c->param('password');
-    my $user = $c->db->resultset('User')->search({username => $username, password => $password})->first();
+    my $user = $c->db->resultset('User')->search({username => $c->param('username'), password => $c->param('password')})->first();
     if($user){
       $c->session->{login_user_id} = $user->id;
       $c->redirect_to('/memos/');

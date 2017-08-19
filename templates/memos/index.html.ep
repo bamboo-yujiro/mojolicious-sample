@@ -1,22 +1,31 @@
 % layout "default";
 <div><a href="/">Topに戻る</a></div>
-<h1><%= $current_user->username; %>さんのメモ帳</h1>
+<h1><%= $current_user->username %>さんのメモ帳</h1>
 <div class="mb20 mt10">
-  <a href="/memos/create" class="dimention-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>メモを書く</a>
+  <a href="/memos/new" class="dimention-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>メモを書く</a>
 </div>
 <% while(my $row = $memos->next()){ %>
 <div class="memo-box clearfix">
-  <p><%= $row->title; %></p>
+  <p><a href="/memos/<%= $row->id %>/edit"><%= $row->title %></a></p>
   <div class="fl-left">
-    <span>投稿日時 : <%= $row->formated_created; %></span>
+    <span>投稿日時 : <%= $row->formated_created %></span>
   </div>
   <div class="fl-right">
-    <a href="" class="mr10">編集</a>
-    <a href="">削除</a>
+    <a href="/memos/<%= $row->id %>/edit" class="mr10">編集</a>
+    <a data-href="/memos/<%= $row->id %>/destroy" class="destroy" href="javascript:void(0);">削除</a>
   </div>
 </div>
 <% } %>
 <div class="pager">
 <%== my_pager($pager) %>
 </div>
-
+<script>
+$(function(){
+  $('.destroy').click(function(){
+    if(!confirm('削除しますか？')){
+      return false;
+    }
+    $('body').append('<form method="post" action="'+$(this).attr('data-href')+'" id="t"></form>').find('#t').submit();
+  });
+});
+</script>
