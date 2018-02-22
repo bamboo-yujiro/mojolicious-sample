@@ -1,5 +1,11 @@
-## 準備
+## 詳細
 
+[Mojolicious でアプリケーションをつくってみた ①【環境構築編】](http://bamboo-yujiro.hatenablog.com/entry/2017/08/20/003154)
+
+[Mojolicious でアプリケーションをつくってみた ②](http://bamboo-yujiro.hatenablog.com/entry/2017/08/20/003214)
+
+
+## 準備
 
 perl env のインストール
 
